@@ -13,17 +13,21 @@ let cart = []
 
 // Abrir o modal do carrinho
 cartBtn.addEventListener('click', function() {
+  updateCartModal()
 cartModal.style.display = 'flex'
+document.body.style.overflow = 'hidden';
 })
 // Fechar o modal do carrinho quando clicar fora
 cartModal.addEventListener('click', function(event) {
 if(event.target === cartModal) {
   cartModal.style.display = 'none'
+  document.body.style.overflow = '';
 }
 })
 // Fechar o modal do carrinho
 closeModalBtn.addEventListener('click', function() {
   cartModal.style.display = 'none'
+  document.body.style.overflow = '';
 })
 
 menu.addEventListener('click', function(event) {
@@ -61,22 +65,25 @@ function updateCartModal () {
 
   cart.forEach(item => {
     const cartItemElement = document.createElement('div')
-
+    cartItemElement.classList.add('flex', 'justify-between', 'mb-4', 'flex-col')
     cartItemElement.innerHTML = `
-    <div>
-      <div>
-        <img src="${item.image}"
-        <P>${item.name}</P>
-        <P>${item.quantity}</P>
-        <P>${item.price}</P>
+    <div class="flex items-center justify-between" style="margin: 15px 0">
+      <div class="flex">
+        <div class="flex items-center justify-center">
+          <img src="${item.image}" class="rounded-md hover:scale-110 duration-300" style="width: 60px; height: 60px">
+        </div>
+        <div class="flex flex-col justify-between" style="margin: 0 20px">
+          <p class="font-bold">${item.name}</p>
+          <p>Quantidade: ${item.quantity}</p>
+          <p class="font-medium mt-2 ">R$ ${item.price.toFixed(2)}</p>
+        </div>
       </div>
-      <div>
-      <button>
+      <button style="color: #000; transition: all 0.5s" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">
       Remover
       </button>
-      </div>
     </div>
     `
+    total += item.price * item.quantity
     cartItemsContainer.appendChild(cartItemElement)
   })
 }

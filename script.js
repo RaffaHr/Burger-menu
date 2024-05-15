@@ -1,15 +1,20 @@
 const menu = document.getElementById('menu')
 const cartBtn = document.getElementById('cart-btn')
 const cartModal = document.getElementById('cart-modal')
-const moreInfo = document.getElementById('more-info')
+const moreInfo = document.querySelector('.more-info')
 const infoModal = document.getElementById('info-modal')
+const infoItems = document.getElementById('info-items')
 const cartItemsContainer = document.getElementById('cart-items')
 const cartTotal = document.getElementById('cart-total')
 const checkoutBtn = document.getElementById('checkout-btn')
 const closeModalBtn = document.getElementById('close-modal-btn')
 const cartCount = document.getElementById('cart-count')
 const addressInput = document.getElementById('address')
+const houseNumber = document.getElementById('house-number')
+const cep = document.getElementById('cep')
+const contact = document.getElementById('contact')
 const addressWarn = document.getElementById('address-warn')
+const empyCart = document.getElementById('empy-cart')
 
 let cart = []
 
@@ -24,12 +29,14 @@ document.body.style.overflow = 'hidden';
 cartModal.addEventListener('click', function(event) {
 if(event.target === cartModal) {
   cartModal.style.display = 'none'
+  empyCart.classList.add('hidden')
   document.body.style.overflow = '';
 }
 })
 // Fechar o modal do carrinho
 closeModalBtn.addEventListener('click', function() {
   cartModal.style.display = 'none'
+  empyCart.classList.add('hidden')
   document.body.style.overflow = '';
 })
 
@@ -105,21 +112,73 @@ cartItemsContainer.addEventListener('click', function(event) {
     removeItemCart(name)
   }
 })
-//Função de Detalhes
-menu.addEventListener('click', function(event) {
-  let parentButton = event.target.closest('.more-info')
 
+// Abrir o modal de detalhes e pega as informações
+menu.addEventListener('click', function(event) {
+  let parentButtonInfo = event.target.closest('.more-info')
+
+  const name = parentButtonInfo.getAttribute("data-name")
+  const price = parseFloat(parentButtonInfo.getAttribute("data-price"))
+  const image = parentButtonInfo.getAttribute("data-image")
+  const description = parentButtonInfo.getAttribute("data-description")
+
+  infoItems.innerHTML = ""
+
+  //Constroi os elementos no modal de acordo com o item
+  const infoModalElements = document.createElement('div')
+  infoModalElements.classList.add('flex', 'justify-between', 'mb-4', 'flex-col')
+  infoModalElements.innerHTML = `
+  <div>
+  <h1 class="text-center font-bold text-2xl">${name}</h1>
+</div>
+<div class="flex justify-center items-center my-3">
+  <img class="rounded-2xl hover:scale-110 duration-300" style="width: 120px; height: 120px;" src="${image}" alt="${name}">
+</div>
+<div class="text-center my-5">
+  <span class="font-medium">Descrição:</span>
+</div>
+<div class="flex justify-center items-center flex-wrap h-full">
+  <p class="text-justify text-sm"  style="width: 90%;">${description}</p>
+</div>
+<div class="flex justify-between items-center mt-10">
+  <button class="rounded-xl bg-red-600 p-2 add-to-cart-btn w-full hover:scale-105 duration-300" data-name="${name}" data-price="${price}" data-image="${image}"><i class="fa fa-cart-plus text-sm text-white md:mx-2"></i><span class="mx-2 text-white text-sm">Adicionar ao carrinho:</span><span class="md:mx-2 text-white text-sm">R$ ${price}</span></button>
+</div>
+  `
+
+  infoItems.appendChild(infoModalElements)
+
+  infoModal.style.display = "flex"
+
+})
+
+//Função do botao de acionar no carrinho dentro do modal de detalhes
+infoModal.addEventListener('click', function(event) {
+  let parentButton = event.target.closest('.add-to-cart-btn')
   if(parentButton) {
     const name = parentButton.getAttribute("data-name")
     const price = parseFloat(parentButton.getAttribute("data-price"))
     const image = parentButton.getAttribute("data-image")
-    const description = parentButton.getAttribute("data-description")
+
+    addToCart(name,price,image)
+  }
+})
+//Fecha o modal se clicar no botão fechar
+
+infoModal.addEventListener('click', function(event) {
+  let parentButtonCloseInfoBtn = event.target.closest('#close-modal-info')
+  if(parentButtonCloseInfoBtn) {
+    infoModal.style.display = "none"
+    
   }
 })
 
-moreInfo.addEventListener('click', function() {
-  infoModal.style.display = "flex"
-})
+//Fechar o modal se clicar fora dele
+infoModal.addEventListener('click', function(event) {
+  if(event.target === infoModal) {
+    infoModal.style.display = 'none'
+    
+  }
+  })
 
 //Função de remover item do carrinho
 function removeItemCart(name) {
@@ -139,20 +198,11 @@ function removeItemCart(name) {
   }
 }
 
-addressInput.addEventListener('input', function(event) {
-  let inputValue = event.target.value 
-
-  if(inputValue !== '') {
-    addressInput.classList.remove('border-red-500')
-    addressWarn.classList.add('hidden')
-  }
-
-})
 // Verificar a hora e manupular o card de horario
 function checkRestaurantOpen() {
   const data = new Date()
   const hora = data.getHours()
-  return hora >= 18 && hora <22
+  return hora >= 12 && hora <22
 }
 
 const spanItem = document.getElementById('date-span')
@@ -165,6 +215,31 @@ if(isOpen) {
   spanItem.classList.remove('bg-green-600')
   spanItem.classList.add('bg-red-500')
 }
+//Verificações dos inputs do cart
+addressInput.addEventListener('input', function(event) {
+  let inputValue = event.target.value 
+
+  if(inputValue !== '') {
+    addressInput.classList.remove('border-red-500')
+    addressWarn.classList.add('hidden')
+  }
+})
+houseNumber.addEventListener('input', function(event) {
+  let inputValue = event.target.value 
+
+  if(inputValue !== '') {
+    houseNumber.classList.remove('border-red-500')
+    addressWarn.classList.add('hidden')
+  }
+})
+cep.addEventListener('input', function(event) {
+  let inputValue = event.target.value 
+
+  if(inputValue !== '') {
+    cep.classList.remove('border-red-500')
+    addressWarn.classList.add('hidden')
+  }
+})
 //Finalizar pedido
 checkoutBtn.addEventListener('click', function() {
 
@@ -186,17 +261,27 @@ checkoutBtn.addEventListener('click', function() {
 
   const msg2 = encodeURIComponent(`${cartItems}
   
-  Endereço: ${addressInput.value}
+  Endereço: ${addressInput.value}, ${houseNumber.value} - CEP ${cep.value}
+  Telefone para contato: ${contact.value}
   Total do pedido: ${cartTotal.textContent}`)
 
   const phone = '27997215329'
 
-  window.open(`https://wa.me/${phone}?text=${msg2}`, "_blank")
-
-  if(cart.length === 0) return;
-  if(addressInput.value === "") {
-    addressWarn.classList.remove('hidden')
-    addressInput.classList.add('border-red-500')
+  if(cart.length === 0) {
+    empyCart.classList.remove('hidden')
     return
+  }
+
+  if(addressInput.value === '') {
+    addressInput.classList.add('border-red-500')
+    addressWarn.classList.remove('hidden')
+  } else if (houseNumber.value ==='') {
+    houseNumber.classList.add('border-red-500')
+    addressWarn.classList.remove('hidden')
+  } else if (cep.value === '') {
+    cep.classList.add('border-red-500')
+    addressWarn.classList.remove('hidden')
+  } else {
+    window.open(`https://wa.me/${phone}?text=${msg2}`, "_blank")
   }
 })

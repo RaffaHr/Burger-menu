@@ -2,6 +2,7 @@ const menu = document.getElementById('menu')
 const cartBtn = document.getElementById('cart-btn')
 const cartModal = document.getElementById('cart-modal')
 const moreInfo = document.getElementById('more-info')
+const infoModal = document.getElementById('info-modal')
 const cartItemsContainer = document.getElementById('cart-items')
 const cartTotal = document.getElementById('cart-total')
 const checkoutBtn = document.getElementById('checkout-btn')
@@ -105,13 +106,19 @@ cartItemsContainer.addEventListener('click', function(event) {
   }
 })
 //Função de Detalhes
-moreInfo.addEventListener('click', function(event) {
-  let parentButton = event.target.closest('.add-to-cart-btn')
+menu.addEventListener('click', function(event) {
+  let parentButton = event.target.closest('.more-info')
+
   if(parentButton) {
     const name = parentButton.getAttribute("data-name")
     const price = parseFloat(parentButton.getAttribute("data-price"))
+    const image = parentButton.getAttribute("data-image")
     const description = parentButton.getAttribute("data-description")
   }
+})
+
+moreInfo.addEventListener('click', function() {
+  infoModal.style.display = "flex"
 })
 
 //Função de remover item do carrinho

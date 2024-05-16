@@ -12,3 +12,61 @@ body {
 .hide {
   display: none !important;
 }
+#bg-imgs {
+  position: relative;
+ 
+}
+img#tomate {
+position: absolute;
+margin-left: -30px;
+margin-top: -20px;
+height: 250px;
+width: 300px;
+
+}
+img#burguer {
+  margin-left: -40px;
+  margin-top: 180px;
+  transition: transform 0.8s ease;
+  z-index: 999
+}
+img#burguer:hover {
+  transform: translateX(40px) translateY(-160px);
+}
+#bg-img-burguer {
+  overflow: hidden;
+}
+img#ham-bg-2 {
+margin-top: 60px;
+animation: float 5s infinite linear;
+transition: transform 0.3s ease; /* Adiciona transição para o efeito de escala */
+z-index: 1;
+}
+#ham-bg-2:hover {
+  transform: scale(2.9); /* Aumenta o tamanho ao passar o mouse */
+}
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(0, -10px); }
+  100% { transform: translate(0, 0); }
+}
+.hide {
+  display: none !important;
+}
+#errorInput{
+  width: 25px;
+  height: 25px;
+}
+@media (max-width: 768px) {
+  .md\:hidden {
+    display: none;
+  }
+  .md\:bg-home {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* 100% da altura da viewport */
+    width: 100vw;
+  }
+}

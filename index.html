@@ -324,9 +324,14 @@
         <h2 class="text-center font-bold text-2xl mb-2">Meu carrinho</h2>
         <div id="cart-items" class="flex justify-between mb-2 flex-col overflow-y-scroll" style="max-height: 550px;">
         </div>
-
+        <div class="bg-fixed">
         <p class="font-bold">Total: <span id="cart-total">0.00</span></p>
-
+        <div class="flex items-center justify-between mt-4 w-full">
+          <button id="close-modal-btn" class="bg-red-600 text-white px-2 md:px-4 py-1 rounded">Fechar</button>
+          <button id="go-to-addrress-page" class="text-white bg-green-600 px-2 md:px-4 py-1 rounded">Dados de entrega</button>
+        </div>
+      </div>
+        <div id="addrresPage" class="hidden">
         <p class="font-bold">Endereço de entrega:</p>
 
         <input type="text" id="address" class="w-full rounded my-1"
@@ -365,6 +370,7 @@
           <button id="close-modal-btn" class="bg-red-600 text-white px-2 md:px-4 py-1 rounded">Fechar</button>
           <button id="checkout-btn" class="text-white bg-green-600 px-2 md:px-4 py-1 rounded">Finalizar pedido</button>
         </div>
+      </div>
     </div>
   </div>
 

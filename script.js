@@ -91,20 +91,28 @@ function updateCartModal () {
     cartItemElement.classList.add('flex', 'justify-between', 'mb-4', 'flex-col')
     cartItemElement.innerHTML = `
     <div class="flex items-center justify-between" style="margin: 15px 0">
-      <div class="flex">
-        <div class="flex items-center justify-center">
-          <img src="${item.image}" class="rounded-md hover:scale-110 duration-300" style="width: 60px; height: 60px; margin-left: 5px">
-        </div>
-        <div class="flex flex-col justify-between" style="margin: 0 15px">
-          <p class="font-bold">${item.name}</p>
-          <p>Quantidade: ${item.quantity}</p>
-          <p class="font-medium mt-2 ">R$ ${item.price.toFixed(2)}</p>
-        </div>
+    <div class="flex flex-col w-full">
+  
+      <div>
+        <p class="font-bold w-full text-center">${item.name}</p>
       </div>
-      <button class="remove-from-cart-btn" data-name="${item.name}" style="color: #000; transition: all 0.5s" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">
-      Remover
-      </button>
+  
+      <div class="flex flex-row justify-around">
+          <div class="flex items-center justify-center">
+          <img src="${item.image}" class="rounded-md hover:scale-110 duration-300" style="width: 60px; height: 60px; min-width: 60px">
+          </div>
+          <div class="flex flex-col justify-evenly items-center" style="margin: 0 15px">
+            <p class="flex justify-center m-0">Quantidade: ${item.quantity}</p>
+            <p class="font-medium m-0">R$ ${item.price.toFixed(2)}</p>
+          </div>
+          <div class=" flex items-center">
+            <button class="remove-from-cart-btn" data-name="${item.name}" style="color: #000; transition: all 0.5s" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'">
+              Remover
+              </button>
+          </div>
+      </div>
     </div>
+  </div>
     `
     total += item.price * item.quantity
     cartItemsContainer.appendChild(cartItemElement)
@@ -215,7 +223,7 @@ function removeItemCart(name) {
 function checkRestaurantOpen() {
   const data = new Date()
   const hora = data.getHours()
-  return hora >= 12 && hora <22
+  return hora >= 18 && hora <22
 }
 
 const spanItem = document.getElementById('date-span')

@@ -13,7 +13,7 @@ npm install -D tailwindcss
 ### Após instalação do Tailwind, precisa rodar o comando abaixo em caso de desenvolvimento.
 
 ```bash
-npx tailwindcss -i ./assets/styles/input.css -o ./assets/styles/output.css --watch
+npx tailwindcss -i ./styles/style.css -o ./styles/output.css --watch
 ```
 ### Ou o comando salvo no package.json
 

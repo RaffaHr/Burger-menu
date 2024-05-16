@@ -1,7 +1,6 @@
 const menu = document.getElementById('menu')
 const cartBtn = document.getElementById('cart-btn')
 const cartModal = document.getElementById('cart-modal')
-const moreInfo = document.querySelector('.more-info')
 const infoModal = document.getElementById('info-modal')
 const infoItems = document.getElementById('info-items')
 const cartItemsContainer = document.getElementById('cart-items')
@@ -9,12 +8,18 @@ const cartTotal = document.getElementById('cart-total')
 const checkoutBtn = document.getElementById('checkout-btn')
 const closeModalBtn = document.getElementById('close-modal-btn')
 const cartCount = document.getElementById('cart-count')
+
 const addressInput = document.getElementById('address')
 const houseNumber = document.getElementById('house-number')
-const cep = document.getElementById('cep')
+const cepInput = document.getElementById('cep')
+const neighborhood = document.getElementById('neighborhood')
+const city = document.getElementById('city')
+const state = document.getElementById('state')
+
 const contact = document.getElementById('contact')
 const addressWarn = document.getElementById('address-warn')
 const empyCart = document.getElementById('empy-cart')
+const cepWarn = document.getElementById('cepWarn')
 
 let cart = []
 
@@ -30,6 +35,7 @@ cartModal.addEventListener('click', function(event) {
 if(event.target === cartModal) {
   cartModal.style.display = 'none'
   empyCart.classList.add('hidden')
+  cepWarn.classList.add('hidden')
   document.body.style.overflow = '';
 }
 })
@@ -37,6 +43,7 @@ if(event.target === cartModal) {
 closeModalBtn.addEventListener('click', function() {
   cartModal.style.display = 'none'
   empyCart.classList.add('hidden')
+  cepWarn.classList.add('hidden')
   document.body.style.overflow = '';
 })
 
@@ -232,11 +239,11 @@ houseNumber.addEventListener('input', function(event) {
     addressWarn.classList.add('hidden')
   }
 })
-cep.addEventListener('input', function(event) {
+cepInput.addEventListener('input', function(event) {
   let inputValue = event.target.value 
 
   if(inputValue !== '') {
-    cep.classList.remove('border-red-500')
+    cepInput.classList.remove('border-red-500')
     addressWarn.classList.add('hidden')
   }
 })
@@ -261,7 +268,7 @@ checkoutBtn.addEventListener('click', function() {
 
   const msg2 = encodeURIComponent(`${cartItems}
   
-  Endereço: ${addressInput.value}, ${houseNumber.value} - CEP ${cep.value}
+  Endereço: ${addressInput.value}, ${houseNumber.value} - CEP ${cepInput.value}
   Telefone para contato: ${contact.value}
   Total do pedido: ${cartTotal.textContent}`)
 
@@ -278,10 +285,71 @@ checkoutBtn.addEventListener('click', function() {
   } else if (houseNumber.value ==='') {
     houseNumber.classList.add('border-red-500')
     addressWarn.classList.remove('hidden')
-  } else if (cep.value === '') {
-    cep.classList.add('border-red-500')
+  } else if (cepInput.value === '') {
+    cepInput.classList.add('border-red-500')
     addressWarn.classList.remove('hidden')
   } else {
     window.open(`https://wa.me/${phone}?text=${msg2}`, "_blank")
   }
 })
+
+//Validação do input de CEP
+cepInput.addEventListener('keypress', (e) => {
+  const onlyNumbers = /[0-9]/
+  const key = String.fromCharCode(e.keyCode)
+
+//Somente numeros no input
+if(!onlyNumbers.test(key)) {
+  e.preventDefault();
+  return;
+}
+})
+//Get address event
+cepInput.addEventListener("keyup", (e) => {
+
+  const inputValue = e.target.value
+
+  if(inputValue.length === 8) {
+    getAddress(inputValue)
+  }
+})
+
+//API pra pegar o endereço pelo CEP
+
+const getAddress = async (cep) => {
+  toggleLoader()
+
+  cepInput.blur()
+
+  const apiUrl = `https://viacep.com.br/ws/${cep}/json`
+
+  const response = await fetch(apiUrl)
+
+  const data = await response.json()
+
+  //show error and reset form
+  if(data.erro === true) {
+    cepInput.value = null
+    toggleLoader()
+    //show msg
+    cepWarn.classList.remove('hidden')
+    return
+  }
+  //preenche os dados automatico nos inputs de acordo com o CEP
+  addressInput.value = data.logradouro
+  neighborhood.value = data.bairro
+  city.value = data.localidade
+  state.value = data.uf
+
+  toggleLoader()
+}
+
+//Show or hide loader
+
+const toggleLoader = () => {
+  const fade = document.querySelector('#fade')
+  const loader = document.querySelector('#loader')
+
+  fade.classList.toggle('hide')
+  loader.classList.toggle('hide')
+}

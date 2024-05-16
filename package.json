@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "file:babel/core@babel/node@babel/plugin-transform-runtime@babel/preset-env@babel/registerbabel-corebabel-eslintbabel-istanbulchaichai-as-promisedchai-subsetmochanocknodemonrolluprollup-plugin-babelrollup-plugin-commonjsrollup-plugin-node-resolverollup-plugin-replacestandarduglify-js",
     "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "unfetch": "^5.0.0"
   }
 }

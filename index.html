@@ -321,16 +321,22 @@
 
   <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] items-center justify-center hidden" id="cart-modal">
     <div class="bg-white p-5 rounded-2xl" style="min-width: 350px; max-width: 600px; width: 90vw;">
+      <div id="items-cart-page" class="">
         <h2 class="text-center font-bold text-2xl mb-2">Meu carrinho</h2>
         <div id="cart-items" class="flex justify-between mb-2 flex-col overflow-y-scroll" style="max-height: 550px;">
         </div>
         <div class="bg-fixed">
         <p class="font-bold">Total: <span id="cart-total">0.00</span></p>
+        <p class="text-red-500 hidden flex items-center" id="empy-cart"><svg class="w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>Seu carrinho está vazio!</p>
         <div class="flex items-center justify-between mt-4 w-full">
           <button id="close-modal-btn" class="bg-red-600 text-white px-2 md:px-4 py-1 rounded">Fechar</button>
           <button id="go-to-addrress-page" class="text-white bg-green-600 px-2 md:px-4 py-1 rounded">Dados de entrega</button>
         </div>
       </div>
+    </div>
+
         <div id="addrresPage" class="hidden">
         <p class="font-bold">Endereço de entrega:</p>
 
@@ -362,12 +368,18 @@
           style="border-width: 2px; padding: 0.25rem; margin: 0.25rem 0;"
           placeholder="Telefone (opcional)">
 
-        <p class="text-red-500 hidden" id="address-warn">Verifique os dados e tente novamente!</p>
-        <p class="text-red-500 hidden" id="empy-cart">Seu carrinho está vazio!</p>
-        <p class="text-red-500 hidden" id="cepWarn">Cep digitado não encontrado!</p>
+        <p class="text-red-500 hidden flex items-center text-xs" id="address-warn"><svg class="w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>Verifique os dados e tente novamente!</p>
+        <p class="text-red-500 hidden flex items-center" id="empy-cart"><svg class="w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>Seu carrinho está vazio!</p>
+        <p class="text-red-500 hidden flex items-center" id="cepWarn"><svg class="w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>CEP digitado não encontrado!</p>
 
         <div class="flex items-center justify-between mt-4 w-full">
-          <button id="close-modal-btn" class="bg-red-600 text-white px-2 md:px-4 py-1 rounded">Fechar</button>
+          <button id="back-to-checkoutPage-btn" class="bg-red-600 text-white px-2 md:px-4 py-1 rounded">Voltar</button>
           <button id="checkout-btn" class="text-white bg-green-600 px-2 md:px-4 py-1 rounded">Finalizar pedido</button>
         </div>
       </div>

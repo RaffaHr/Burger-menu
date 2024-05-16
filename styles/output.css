@@ -929,7 +929,12 @@ video {
 .h-full{
   height: 100%;
 }
-
+.w-7 {
+  width: 1.75rem; /* 28px */
+}
+.w-8 {
+  width: 2rem; /* 32px */
+}
 .w-28{
   width: 7rem;
 }
@@ -2719,11 +2724,16 @@ video {
 body {
   background-color: #F6F7F8;
 }
-
+.bg-home {
+  background-image: url(../assets/bg.png);
+}
 .hide {
   display: none !important;
 }
-
+#errorInput{
+  width: 25px;
+  height: 25px;
+}
 @media (min-width: 640px){
   .sm\:container{
     width: 100%;

@@ -21,6 +21,12 @@ const addressWarn = document.getElementById('address-warn')
 const empyCart = document.getElementById('empy-cart')
 const cepWarn = document.getElementById('cepWarn')
 
+const goToAddrressPageBtn = document.getElementById('go-to-addrress-page')
+
+const cartItemsPage = document.getElementById('items-cart-page')
+const addrresPage = document.getElementById('addrresPage')
+const backCheckoutPage = document.getElementById('back-to-checkoutPage-btn')
+
 let cart = []
 
 
@@ -245,6 +251,7 @@ cepInput.addEventListener('input', function(event) {
   if(inputValue !== '') {
     cepInput.classList.remove('border-red-500')
     addressWarn.classList.add('hidden')
+    cepWarn.classList.add('hidden')
   }
 })
 //Finalizar pedido
@@ -257,6 +264,22 @@ checkoutBtn.addEventListener('click', function() {
   }
 
   //Enviar o pedido para API do WhatsApp
+
+    //Saudação com base no horário
+    let saudacao = ``
+    const data = new Date()
+    const hora = data.getHours()
+  
+    if(hora <= 11) {
+      saudacao = `Olá, bom dia, gostaria de fazer um pedido!
+      `
+    } else if (hora >= 12 && hora < 17) {
+      saudacao = `Olá, boa tarde, gostaria de fazer um pedido!
+      `
+    } else if (hora >= 18) {
+      saudacao = `Olá, boa noite, gostaria de fazer um pedido!
+      `
+    }
   const cartItems = cart.map((item) => {
     return(
       `*(${item.quantity})* - *${item.name}* Preço: R$ ${item.price} | 
@@ -264,13 +287,19 @@ checkoutBtn.addEventListener('click', function() {
     )
   }).join("")
 
-/*   const msg = encodeURIComponent(cartItems) */
+  if(contact.value === '') {
+    contact.value = 'Não informado'
+  }
 
-  const msg2 = encodeURIComponent(`${cartItems}
-  
-  Endereço: ${addressInput.value}, ${houseNumber.value} - CEP ${cepInput.value}
-  Telefone para contato: ${contact.value}
-  Total do pedido: ${cartTotal.textContent}`)
+  const msg = encodeURIComponent(
+`${saudacao}
+Pedido:
+
+${cartItems}
+
+Endereço: ${addressInput.value}, ${houseNumber.value}, ${neighborhood.value} - CEP ${cepInput.value} - ${city.value} - ${state.value}
+Telefone para contato: ${contact.value}
+Total do pedido: *${cartTotal.textContent}*`)
 
   const phone = '27997215329'
 
@@ -289,7 +318,7 @@ checkoutBtn.addEventListener('click', function() {
     cepInput.classList.add('border-red-500')
     addressWarn.classList.remove('hidden')
   } else {
-    window.open(`https://wa.me/${phone}?text=${msg2}`, "_blank")
+    window.open(`https://wa.me/${phone}?text=${msg}`, "_blank")
   }
 })
 
@@ -353,3 +382,30 @@ const toggleLoader = () => {
   fade.classList.toggle('hide')
   loader.classList.toggle('hide')
 }
+
+//Second page checkout
+goToAddrressPageBtn.addEventListener('click', function() {
+
+  if(cart.length === 0) {
+    empyCart.classList.remove('hidden')
+    return
+  }
+  toggleLoader()
+
+  // Exibir loader antes de mudar de aba
+  setTimeout(() => {
+    cartItemsPage.classList.add('hidden');
+    toggleLoader();
+    addrresPage.classList.remove('hidden');
+  }, 250); // Tempo em milissegundos
+});
+backCheckoutPage.addEventListener('click', function() {
+  toggleLoader()
+
+    // Exibir loader antes de mudar de aba
+    setTimeout(() => {
+      cartItemsPage.classList.remove('hidden');
+      toggleLoader();
+      addrresPage.classList.add('hidden');
+    }, 250); // Tempo em milissegundos
+  });

@@ -2798,7 +2798,8 @@ img#ham-bg-2 {
 margin-top: 60px;
 animation: float 5s infinite linear;
 transition: transform 0.3s ease; /* Adiciona transição para o efeito de escala */
-z-index: 1;
+max-width: 440px;
+filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5)); /* Aplica sombra à imagem */
 }
 #ham-bg-2:hover {
   transform: scale(2.9); /* Aumenta o tamanho ao passar o mouse */

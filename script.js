@@ -27,6 +27,8 @@ const cartItemsPage = document.getElementById('items-cart-page')
 const addrresPage = document.getElementById('addrresPage')
 const backCheckoutPage = document.getElementById('back-to-checkoutPage-btn')
 
+const toastBtn = document.querySelector('#liveToastBtn')
+
 let cart = []
 
 
@@ -139,6 +141,9 @@ menu.addEventListener('click', function(event) {
   let parentButtonInfo = event.target.closest('.more-info')
 
   const name = parentButtonInfo.getAttribute("data-name")
+
+  console.log(name)
+
   const price = parseFloat(parentButtonInfo.getAttribute("data-price"))
   const image = parentButtonInfo.getAttribute("data-image")
   const description = parentButtonInfo.getAttribute("data-description")
@@ -162,7 +167,7 @@ menu.addEventListener('click', function(event) {
   <p class="text-justify text-sm"  style="width: 90%;">${description}</p>
 </div>
 <div class="flex justify-between items-center mt-10">
-  <button class="rounded-xl bg-red-600 p-2 add-to-cart-btn w-full hover:scale-105 duration-300" data-name="${name}" data-price="${price}" data-image="${image}"><i class="fa fa-cart-plus text-sm text-white md:mx-2"></i><span class="mx-2 text-white text-sm">Adicionar ao carrinho:</span><span class="md:mx-2 text-white text-sm">R$ ${price}</span></button>
+  <button class="rounded-xl bg-red-600 p-2 add-to-cart-btn w-full hover:scale-105 duration-300" onclick="createToast('${name}')" data-name="${name}" data-price="${price}" data-image="${image}"><i class="fa fa-cart-plus text-sm text-white md:mx-2"></i><span class="mx-2 text-white text-sm">Adicionar ao carrinho:</span><span class="md:mx-2 text-white text-sm">R$ ${price}</span></button>
 </div>
   `
 
@@ -417,3 +422,34 @@ backCheckoutPage.addEventListener('click', function() {
       addrresPage.classList.add('hidden');
     }, 250); // Tempo em milissegundos
   });
+
+  //Função de toast quando adiciona um item ao carrinho
+
+let notifications = document.querySelector('.notifications');
+    let addToCartToast = document.querySelectorAll('.add-to-cart-btn')
+    
+    
+    function createToast(text){
+        let newToast = document.createElement('div');
+        newToast.innerHTML = `
+            <div class="toast">
+                <i class="fa-solid fa-cart-shopping text-white"></i>
+                <div class="content">
+                    <div class="title">Adicionado ao carrinho</div>
+                    <span>${text}</span>
+                </div>
+                <i class="fa-solid fa-xmark" onclick="(this.parentElement).remove()"></i>
+            </div>`;
+        notifications.appendChild(newToast);
+        newToast.timeOut = setTimeout(
+            ()=>newToast.remove(), 5000
+        )
+    }
+    if (addToCartToast) {
+      // Itere sobre cada botão e adicione um event listener de clique
+      addToCartToast.forEach(button => {
+          button.onclick = function() {
+              let text = button.getAttribute('data-name')
+              createToast(text);
+          };
+      })}

@@ -1,7 +1,9 @@
+<h1 align="center">Burguer Menu</h1>
+
 <p align="center">
-  <img src="assets/favicon.png" alt="Logo do Projeto" style="width: 300px;"/>
+<img src="assets/macbook.png" style="width: 300px;"/>
+<img src="assets/iphone.png" style="width: 300px;"/>
 </p>
-# Burger-menu
 
 #### O Burger Menu ou Cardápio, foi projetado com o intuito de poder disponibilizar parar os restaurantes tanto de delivery tanto de pequeno a médio porte, que possam estar cadastrando seus lanches, e poder vendelos de forma online, e realizar a entrega na casa do cliente, o projeto foi pensando pra ser simpeles, facil e rápido para fazer um pedido
 
